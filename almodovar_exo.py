@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 import re
 
 # Scrap des articles sur la page
-def scraper_articles(url_page, test_mode=True):
+def scraper_articles(url_page, mode=True):
     # Fait genre c'est un vrai navigateur
     en_tete = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -24,8 +24,8 @@ def scraper_articles(url_page, test_mode=True):
     balise_main = page.find('main')
     liste_articles = balise_main.find_all('article') if balise_main else []
 
-    # Test = que 1 artikeule
-    if test_mode:
+    # Test = que 1 arti
+    if mode:
         liste_articles = [liste_articles[0]] if liste_articles else []
 
     for article in liste_articles:
@@ -81,22 +81,25 @@ def scraper_articles(url_page, test_mode=True):
                 legende = image.get('alt', '') or image.get('title', '')
                 images_trouvees[f'image_{i}'] = {'url': url_image, 'caption': legende}
 
-        # Print les trucs
-        print(f"\nTitre: {titre_article}")
-        print(f"Miniature: {url_miniature}")
-        print(f"Sous-catégorie: {sous_categorie}")
-        print(f"Résumé: {resume}")
-        print(f"Date: {date_formatee}")
+        # Print
+        print(titre_article)
+        print(url_miniature)
+        print(sous_categorie)
+        print(resume)
+        print(date_formatee)
+
+
+
         print(f"Auteur: {auteur}")
         print(f"Contenu: {contenu_article[:200]}...")
         print(f"Images: {len(images_trouvees)} trouvées")
+
+
+
+
         for cle, infos_img in images_trouvees.items():
             print(f"  - {cle}:")
             print(f"      URL: {infos_img['url']}")
             print(f"      Légende: {infos_img['caption']}")
 
-        print(f"URL: {url_article}")
-        print("-" * 50)
-
-# Va checker la page
-scraper_articles("https://www.blogdumoderateur.com/web/")
+        print(url_article)
